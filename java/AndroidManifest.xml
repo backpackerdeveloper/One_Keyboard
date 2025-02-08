@@ -70,7 +70,7 @@
 
         <!-- Services -->
         <service android:name="LatinIME"
-             android:label="@string/english_ime_name"
+             android:label="One Keyboard 🚀🚀"
              android:permission="android.permission.BIND_INPUT_METHOD"
              android:exported="true"
              android:visibleToInstantApps="true">
