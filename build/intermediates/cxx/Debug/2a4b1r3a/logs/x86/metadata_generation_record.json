@@ -1,0 +1,106 @@
+[
+  {
+    "level_": 0,
+    "message_": "Start JSON generation. Platform version: 30 min SDK version: x86",
+    "file_": "C:\\shubham\\One Keyboard\\native\\jni\\AndroidNdk.mk",
+    "tag_": "debug|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 0
+  },
+  {
+    "level_": 0,
+    "message_": "rebuilding JSON C:\\shubham\\One Keyboard\\build\\.cxx\\Debug\\2a4b1r3a\\x86\\android_gradle_build.json due to:",
+    "file_": "C:\\shubham\\One Keyboard\\native\\jni\\AndroidNdk.mk",
+    "tag_": "debug|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 0
+  },
+  {
+    "level_": 0,
+    "message_": "- no fingerprint file, will remove stale configuration folder",
+    "file_": "C:\\shubham\\One Keyboard\\native\\jni\\AndroidNdk.mk",
+    "tag_": "debug|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 0
+  },
+  {
+    "level_": 0,
+    "message_": "removing stale contents from \u0027C:\\shubham\\One Keyboard\\build\\.cxx\\Debug\\2a4b1r3a\\x86\u0027",
+    "file_": "C:\\shubham\\One Keyboard\\native\\jni\\AndroidNdk.mk",
+    "tag_": "debug|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 0
+  },
+  {
+    "level_": 0,
+    "message_": "created folder \u0027C:\\shubham\\One Keyboard\\build\\.cxx\\Debug\\2a4b1r3a\\x86\u0027",
+    "file_": "C:\\shubham\\One Keyboard\\native\\jni\\AndroidNdk.mk",
+    "tag_": "debug|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 0
+  },
+  {
+    "level_": 0,
+    "message_": "executing ndkBuild @echo off\n\"C:\\\\Users\\\\shubham\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\ndk\\\\25.1.8937393\\\\ndk-build.cmd\" ^\n  \"NDK_PROJECT_PATH\u003dnull\" ^\n  \"APP_BUILD_SCRIPT\u003dC:\\\\shubham\\\\One Keyboard\\\\native\\\\jni\\\\AndroidNdk.mk\" ^\n  \"NDK_APPLICATION_MK\u003dC:\\\\shubham\\\\One Keyboard\\\\native\\\\jni\\\\Application.mk\" ^\n  \"APP_ABI\u003dx86\" ^\n  \"NDK_ALL_ABIS\u003dx86\" ^\n  \"NDK_DEBUG\u003d1\" ^\n  \"APP_PLATFORM\u003dandroid-30\" ^\n  \"NDK_OUT\u003dC:\\\\shubham\\\\One Keyboard\\\\build\\\\intermediates\\\\cxx\\\\Debug\\\\2a4b1r3a/obj\" ^\n  \"NDK_LIBS_OUT\u003dC:\\\\shubham\\\\One Keyboard\\\\build\\\\intermediates\\\\cxx\\\\Debug\\\\2a4b1r3a/lib\" ^\n  \"APP_SHORT_COMMANDS\u003dfalse\" ^\n  \"LOCAL_SHORT_COMMANDS\u003dfalse\" ^\n  -B ^\n  -n\n",
+    "file_": "C:\\shubham\\One Keyboard\\native\\jni\\AndroidNdk.mk",
+    "tag_": "debug|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 0
+  },
+  {
+    "level_": 0,
+    "message_": "@echo off\n\"C:\\\\Users\\\\shubham\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\ndk\\\\25.1.8937393\\\\ndk-build.cmd\" ^\n  \"NDK_PROJECT_PATH\u003dnull\" ^\n  \"APP_BUILD_SCRIPT\u003dC:\\\\shubham\\\\One Keyboard\\\\native\\\\jni\\\\AndroidNdk.mk\" ^\n  \"NDK_APPLICATION_MK\u003dC:\\\\shubham\\\\One Keyboard\\\\native\\\\jni\\\\Application.mk\" ^\n  \"APP_ABI\u003dx86\" ^\n  \"NDK_ALL_ABIS\u003dx86\" ^\n  \"NDK_DEBUG\u003d1\" ^\n  \"APP_PLATFORM\u003dandroid-30\" ^\n  \"NDK_OUT\u003dC:\\\\shubham\\\\One Keyboard\\\\build\\\\intermediates\\\\cxx\\\\Debug\\\\2a4b1r3a/obj\" ^\n  \"NDK_LIBS_OUT\u003dC:\\\\shubham\\\\One Keyboard\\\\build\\\\intermediates\\\\cxx\\\\Debug\\\\2a4b1r3a/lib\" ^\n  \"APP_SHORT_COMMANDS\u003dfalse\" ^\n  \"LOCAL_SHORT_COMMANDS\u003dfalse\" ^\n  -B ^\n  -n\n",
+    "file_": "C:\\shubham\\One Keyboard\\native\\jni\\AndroidNdk.mk",
+    "tag_": "debug|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 0
+  },
+  {
+    "level_": 0,
+    "message_": "JSON generation completed with problem. Exception: com.android.ide.common.process.ProcessException: Android NDK: Your APP_BUILD_SCRIPT points to an unknown file: C:\\shubham\\One Keyboard\\native\\jni\\AndroidNdk.mk    \n\nC++ build system [configure] failed while executing:\n    @echo off\n    \"C:\\\\Users\\\\shubham\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\ndk\\\\25.1.8937393\\\\ndk-build.cmd\" ^\n      \"NDK_PROJECT_PATH\u003dnull\" ^\n      \"APP_BUILD_SCRIPT\u003dC:\\\\shubham\\\\One Keyboard\\\\native\\\\jni\\\\AndroidNdk.mk\" ^\n      \"NDK_APPLICATION_MK\u003dC:\\\\shubham\\\\One Keyboard\\\\native\\\\jni\\\\Application.mk\" ^\n      \"APP_ABI\u003dx86\" ^\n      \"NDK_ALL_ABIS\u003dx86\" ^\n      \"NDK_DEBUG\u003d1\" ^\n      \"APP_PLATFORM\u003dandroid-30\" ^\n      \"NDK_OUT\u003dC:\\\\shubham\\\\One Keyboard\\\\build\\\\intermediates\\\\cxx\\\\Debug\\\\2a4b1r3a/obj\" ^\n      \"NDK_LIBS_OUT\u003dC:\\\\shubham\\\\One Keyboard\\\\build\\\\intermediates\\\\cxx\\\\Debug\\\\2a4b1r3a/lib\" ^\n      \"APP_SHORT_COMMANDS\u003dfalse\" ^\n      \"LOCAL_SHORT_COMMANDS\u003dfalse\" ^\n      -B ^\n      -n\n  from C:\\shubham\\One Keyboard\nC:/Users/shubham/AppData/Local/Android/Sdk/ndk/25.1.8937393/build/../build/core/add-application.mk:88: *** Android NDK: Aborting...    .  Stop.",
+    "file_": "C:\\shubham\\One Keyboard\\native\\jni\\AndroidNdk.mk",
+    "tag_": "debug|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 0
+  }
+]
