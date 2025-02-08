@@ -25,7 +25,7 @@ android {
     useLibrary 'android.test.mock'
 
     defaultConfig {
-        minSdkVersion 30
+        minSdkVersion 21
         targetSdkVersion 34
         versionName "1.0"
 
@@ -74,11 +74,18 @@ android {
     }
 
 
+//    externalNativeBuild {
+//        ndkBuild {
+//            path 'native/jni/AndroidNdk.mk'
+//        }
+//    }
+
     externalNativeBuild {
-        ndkBuild {
-            path 'native/jni/AndroidNdk.mk'
+        cmake {
+            path file('native/jni/CMakeLists.txt')
         }
     }
+
     androidResources {
         noCompress 'dict'
     }
