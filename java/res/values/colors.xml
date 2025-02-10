@@ -65,6 +65,7 @@
     <!-- Accent color for the notification. We need to match this to the OS build -->
     <color name="notification_accent_color">#FF607D8B</color>
     <color name="light_lxx_bg">#e6ebf2</color>
+    <color name="dark_lxx_bg">#001524</color>
     <color name="white">#FFFFFF</color>
     <color name="blue">#6685F6</color>
 </resources>
