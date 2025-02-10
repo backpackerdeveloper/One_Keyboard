@@ -33,6 +33,7 @@
     <color name="gesture_trail_color_lxx_light">#4DB6AC</color>
     <color name="sliding_key_input_preview_color_lxx_light">#B34DB6AC</color>
     <color name="key_background_lxx_light">#ECEFF1</color>
+    <color name="functional_key_background_lxx_light">#B0C8E8</color>
     <color name="key_background_pressed_lxx_light">#2637474F</color>
     <color name="suggested_word_background_selected_lxx_light">#2637474F</color>
     <color name="gesture_floating_preview_color_lxx_light">#E6ECEFF1</color>
@@ -63,4 +64,7 @@
     <color name="setup_welcome_video_margin_color">#FFCCCCCC</color>
     <!-- Accent color for the notification. We need to match this to the OS build -->
     <color name="notification_accent_color">#FF607D8B</color>
+    <color name="light_lxx_bg">#e6ebf2</color>
+    <color name="white">#FFFFFF</color>
+    <color name="blue">#6685F6</color>
 </resources>
