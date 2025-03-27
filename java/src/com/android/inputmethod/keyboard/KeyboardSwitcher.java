@@ -34,7 +34,7 @@ import com.android.inputmethod.keyboard.emoji.EmojiPalettesView;
 import com.android.inputmethod.keyboard.internal.KeyboardState;
 import com.android.inputmethod.keyboard.internal.KeyboardTextsSet;
 import com.android.inputmethod.latin.InputView;
-import com.android.inputmethod.latin.LatinIME;
+import com.android.inputmethod.latin.OneKeyboard;
 import com.android.inputmethod.latin.R;
 import com.android.inputmethod.latin.RichInputMethodManager;
 import com.android.inputmethod.latin.WordComposer;
@@ -56,7 +56,7 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
     private View mMainKeyboardFrame;
     private MainKeyboardView mKeyboardView;
     private EmojiPalettesView mEmojiPalettesView;
-    private LatinIME mLatinIME;
+    private OneKeyboard mOneKeyboard;
     private RichInputMethodManager mRichImm;
     private boolean mIsHardwareAcceleratedDrawingEnabled;
 
@@ -80,23 +80,23 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
         // Intentional empty constructor for singleton.
     }
 
-    public static void init(final LatinIME latinIme) {
-        sInstance.initInternal(latinIme);
+    public static void init(final OneKeyboard oneKeyboard) {
+        sInstance.initInternal(oneKeyboard);
     }
 
-    private void initInternal(final LatinIME latinIme) {
-        mLatinIME = latinIme;
+    private void initInternal(final OneKeyboard oneKeyboard) {
+        mOneKeyboard = oneKeyboard;
         mRichImm = RichInputMethodManager.getInstance();
         mState = new KeyboardState(this);
         mIsHardwareAcceleratedDrawingEnabled =
-                InputMethodServiceCompatUtils.enableHardwareAcceleration(mLatinIME);
+                InputMethodServiceCompatUtils.enableHardwareAcceleration(mOneKeyboard);
     }
 
     public void updateKeyboardTheme(@NonNull Context displayContext) {
         final boolean themeUpdated = updateKeyboardThemeAndContextThemeWrapper(
                 displayContext, KeyboardTheme.getKeyboardTheme(displayContext /* context */));
         if (themeUpdated && mKeyboardView != null) {
-            mLatinIME.setInputView(
+            mOneKeyboard.setInputView(
                     onCreateInputView(displayContext, mIsHardwareAcceleratedDrawingEnabled));
         }
     }
@@ -128,7 +128,7 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
         builder.setSubtype(mRichImm.getCurrentSubtype());
         builder.setVoiceInputKeyEnabled(settingsValues.mShowsVoiceInputKey);
         builder.setNumberRowEnabled(settingsValues.mShowNumberRow);
-        builder.setLanguageSwitchKeyEnabled(mLatinIME.shouldShowLanguageSwitchKey());
+        builder.setLanguageSwitchKeyEnabled(mOneKeyboard.shouldShowLanguageSwitchKey());
         builder.setEmojiKeyEnabled(settingsValues.mShowsEmojiKey);
         builder.setSplitLayoutEnabledByUser(ProductionFlags.IS_SPLIT_KEYBOARD_SUPPORTED
                 && settingsValues.mIsSplitKeyboardEnabled);
@@ -350,11 +350,11 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
         KeyboardSwitchState currentState = getKeyboardSwitchState();
         Log.w(TAG, "onToggleKeyboard() : Current = " + currentState + " : Toggle = " + toggleState);
         if (currentState == toggleState) {
-            mLatinIME.stopShowingInputView();
-            mLatinIME.hideWindow();
+            mOneKeyboard.stopShowingInputView();
+            mOneKeyboard.hideWindow();
             setAlphabetKeyboard();
         } else {
-            mLatinIME.startShowingInputView(true);
+            mOneKeyboard.startShowingInputView(true);
             if (toggleState == KeyboardSwitchState.EMOJI) {
                 setEmojiKeyboard();
             } else {
@@ -482,10 +482,10 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
 
         mKeyboardView = (MainKeyboardView) mCurrentInputView.findViewById(R.id.keyboard_view);
         mKeyboardView.setHardwareAcceleratedDrawingEnabled(isHardwareAcceleratedDrawingEnabled);
-        mKeyboardView.setKeyboardActionListener(mLatinIME);
+        mKeyboardView.setKeyboardActionListener(mOneKeyboard);
         mEmojiPalettesView.setHardwareAcceleratedDrawingEnabled(
                 isHardwareAcceleratedDrawingEnabled);
-        mEmojiPalettesView.setKeyboardActionListener(mLatinIME);
+        mEmojiPalettesView.setKeyboardActionListener(mOneKeyboard);
         return mCurrentInputView;
     }
 

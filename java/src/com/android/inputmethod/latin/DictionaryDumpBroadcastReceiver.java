@@ -28,10 +28,10 @@ public class DictionaryDumpBroadcastReceiver extends BroadcastReceiver {
     public static final String DICTIONARY_DUMP_INTENT_ACTION = DOMAIN + ".DICT_DUMP";
     public static final String DICTIONARY_NAME_KEY = "dictName";
 
-    final LatinIME mLatinIme;
+    final OneKeyboard mOneKeyboard;
 
-    public DictionaryDumpBroadcastReceiver(final LatinIME latinIme) {
-        mLatinIme = latinIme;
+    public DictionaryDumpBroadcastReceiver(final OneKeyboard oneKeyboard) {
+        mOneKeyboard = oneKeyboard;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class DictionaryDumpBroadcastReceiver extends BroadcastReceiver {
                       "but the dictionary name is not set.");
                 return;
             }
-            mLatinIme.dumpDictionaryForDebug(dictName);
+            mOneKeyboard.dumpDictionaryForDebug(dictName);
         }
     }
 }

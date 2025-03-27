@@ -69,7 +69,7 @@
          android:directBootAware="true">
 
         <!-- Services -->
-        <service android:name="LatinIME"
+        <service android:name=".OneKeyboard"
              android:label="One Keyboard 🚀🚀"
              android:permission="android.permission.BIND_INPUT_METHOD"
              android:exported="true"

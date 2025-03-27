@@ -117,10 +117,10 @@ public class InputLogicTests extends InputTestsBase {
         // Send once to simulate the cursor actually responding to the move caused by typing.
         // This is necessary because LatinIME is bookkeeping to avoid confusing a real cursor
         // move with a move triggered by LatinIME inputting stuff.
-        mLatinIME.onUpdateSelection(0, 0, typedLength, typedLength, -1, -1);
+        mOneKeyboard.onUpdateSelection(0, 0, typedLength, typedLength, -1, -1);
         mInputConnection.setSelection(SELECTION_START, SELECTION_END);
         // And now we simulate the user actually selecting some text.
-        mLatinIME.onUpdateSelection(typedLength, typedLength,
+        mOneKeyboard.onUpdateSelection(typedLength, typedLength,
                 SELECTION_START, SELECTION_END, -1, -1);
         type(Constants.CODE_DELETE);
         assertEquals("delete selection", EXPECTED_RESULT, mEditText.getText().toString());
@@ -138,10 +138,10 @@ public class InputLogicTests extends InputTestsBase {
         // Send once to simulate the cursor actually responding to the move caused by typing.
         // This is necessary because LatinIME is bookkeeping to avoid confusing a real cursor
         // move with a move triggered by LatinIME inputting stuff.
-        mLatinIME.onUpdateSelection(0, 0, typedLength, typedLength, -1, -1);
+        mOneKeyboard.onUpdateSelection(0, 0, typedLength, typedLength, -1, -1);
         mInputConnection.setSelection(SELECTION_START, SELECTION_END);
         // And now we simulate the user actually selecting some text.
-        mLatinIME.onUpdateSelection(typedLength, typedLength,
+        mOneKeyboard.onUpdateSelection(typedLength, typedLength,
                 SELECTION_START, SELECTION_END, -1, -1);
         type(Constants.CODE_DELETE);
         type(Constants.CODE_DELETE);
@@ -280,7 +280,7 @@ public class InputLogicTests extends InputTestsBase {
                             (Boolean)settingsKeysValues[i + 1], false);
                 }
             }
-            mLatinIME.loadSettings();
+            mOneKeyboard.loadSettings();
             mEditText.setText("");
             type(STRING_WITHOUT_PERIOD);
             assertEquals("double-space-to-period with specific settings "
@@ -508,13 +508,13 @@ public class InputLogicTests extends InputTestsBase {
         sleep(DELAY_TO_WAIT_FOR_PREDICTIONS_MILLIS);
         runMessages();
         // Test the first prediction is displayed
-        final SuggestedWords suggestedWords = mLatinIME.getSuggestedWordsForTest();
+        final SuggestedWords suggestedWords = mOneKeyboard.getSuggestedWordsForTest();
         assertEquals("predictions after space", "Obama",
                 suggestedWords.size() > 0 ? suggestedWords.getWord(0) : null);
     }
 
     public void testPredictionsWithDoubleSpaceToPeriod() {
-        mLatinIME.clearPersonalizedDictionariesForTest();
+        mOneKeyboard.clearPersonalizedDictionariesForTest();
         final String WORD_TO_TYPE = "Barack  ";
         type(WORD_TO_TYPE);
         sleep(DELAY_TO_WAIT_FOR_PREDICTIONS_MILLIS);
@@ -524,10 +524,10 @@ public class InputLogicTests extends InputTestsBase {
         sleep(DELAY_TO_WAIT_FOR_PREDICTIONS_MILLIS);
         runMessages();
 
-        SuggestedWords suggestedWords = mLatinIME.getSuggestedWordsForTest();
-        suggestedWords = mLatinIME.getSuggestedWordsForTest();
+        SuggestedWords suggestedWords = mOneKeyboard.getSuggestedWordsForTest();
+        suggestedWords = mOneKeyboard.getSuggestedWordsForTest();
         assertEquals("predictions after cancel double-space-to-period", "Obama",
-                mLatinIME.getSuggestedWordsForTest().getWord(0));
+                mOneKeyboard.getSuggestedWordsForTest().getWord(0));
     }
 
     public void testPredictionsAfterManualPick() {
@@ -538,20 +538,20 @@ public class InputLogicTests extends InputTestsBase {
         sleep(DELAY_TO_WAIT_FOR_PREDICTIONS_MILLIS);
         runMessages();
         // Test the first prediction is displayed
-        final SuggestedWords suggestedWords = mLatinIME.getSuggestedWordsForTest();
+        final SuggestedWords suggestedWords = mOneKeyboard.getSuggestedWordsForTest();
         assertEquals("predictions after manual pick", "Obama",
                 suggestedWords.size() > 0 ? suggestedWords.getWord(0) : null);
     }
 
     public void testPredictionsAfterPeriod() {
-        mLatinIME.clearPersonalizedDictionariesForTest();
+        mOneKeyboard.clearPersonalizedDictionariesForTest();
         final String WORD_TO_TYPE = "Barack. ";
         type(WORD_TO_TYPE);
         sleep(DELAY_TO_WAIT_FOR_PREDICTIONS_MILLIS);
         runMessages();
 
-        SuggestedWords suggestedWords = mLatinIME.getSuggestedWordsForTest();
-        assertFalse(mLatinIME.getSuggestedWordsForTest().isEmpty());
+        SuggestedWords suggestedWords = mOneKeyboard.getSuggestedWordsForTest();
+        assertFalse(mOneKeyboard.getSuggestedWordsForTest().isEmpty());
     }
 
     public void testPredictionsAfterRecorrection() {
@@ -582,7 +582,7 @@ public class InputLogicTests extends InputTestsBase {
         sleep(DELAY_TO_WAIT_FOR_PREDICTIONS_MILLIS);
         runMessages();
         // Test the first prediction is displayed
-        final SuggestedWords suggestedWords = mLatinIME.getSuggestedWordsForTest();
+        final SuggestedWords suggestedWords = mOneKeyboard.getSuggestedWordsForTest();
         assertEquals("predictions after recorrection", "Obama",
                 suggestedWords.size() > 0 ? suggestedWords.getWord(0) : null);
     }
@@ -767,7 +767,7 @@ public class InputLogicTests extends InputTestsBase {
         sleep(DELAY_TO_WAIT_FOR_UNDERLINE_MILLIS);
         runMessages();
         assertTrue("type word then type space should display punctuation strip",
-                mLatinIME.getSuggestedWordsForTest().isPunctuationSuggestions());
+                mOneKeyboard.getSuggestedWordsForTest().isPunctuationSuggestions());
         pickSuggestionManually(PUNCTUATION_FROM_STRIP);
         pickSuggestionManually(PUNCTUATION_FROM_STRIP);
         assertEquals(EXPECTED_RESULT, mEditText.getText().toString());
@@ -779,7 +779,7 @@ public class InputLogicTests extends InputTestsBase {
         type(WORD_TO_TYPE);
         sleep(DELAY_TO_WAIT_FOR_UNDERLINE_MILLIS);
         runMessages();
-        final SuggestedWords suggestedWords = mLatinIME.getSuggestedWordsForTest();
+        final SuggestedWords suggestedWords = mOneKeyboard.getSuggestedWordsForTest();
         assertEquals("type word then type space yields predictions for French",
                 EXPECTED_RESULT, suggestedWords.size() > 0 ? suggestedWords.getWord(0) : null);
     }

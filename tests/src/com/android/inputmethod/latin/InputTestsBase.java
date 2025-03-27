@@ -53,7 +53,7 @@ import com.android.inputmethod.latin.utils.SubtypeLocaleUtils;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-public class InputTestsBase extends ServiceTestCase<LatinIMEForTests> {
+public class InputTestsBase extends ServiceTestCase<OneKeyboardForTests> {
     private static final String TAG = InputTestsBase.class.getSimpleName();
 
     // Default value for auto-correction threshold. This is the string representation of the
@@ -73,7 +73,7 @@ public class InputTestsBase extends ServiceTestCase<LatinIMEForTests> {
     private static final String TYPE_TEST = "test";
     private static final PhonyDictionary DICTIONARY_TEST = new PhonyDictionary(TYPE_TEST);
 
-    protected LatinIME mLatinIME;
+    protected OneKeyboard mOneKeyboard;
     protected Keyboard mKeyboard;
     protected MyEditText mEditText;
     protected View mInputView;
@@ -153,12 +153,12 @@ public class InputTestsBase extends ServiceTestCase<LatinIMEForTests> {
     }
 
     public InputTestsBase() {
-        super(LatinIMEForTests.class);
+        super(OneKeyboardForTests.class);
     }
 
     protected boolean setBooleanPreference(final String key, final boolean value,
             final boolean defaultValue) {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mLatinIME);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mOneKeyboard);
         final boolean previousSetting = prefs.getBoolean(key, defaultValue);
         final SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(key, value);
@@ -167,13 +167,13 @@ public class InputTestsBase extends ServiceTestCase<LatinIMEForTests> {
     }
 
     protected boolean getBooleanPreference(final String key, final boolean defaultValue) {
-        return PreferenceManager.getDefaultSharedPreferences(mLatinIME)
+        return PreferenceManager.getDefaultSharedPreferences(mOneKeyboard)
                 .getBoolean(key, defaultValue);
     }
 
     protected String setStringPreference(final String key, final String value,
             final String defaultValue) {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mLatinIME);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mOneKeyboard);
         final String previousSetting = prefs.getString(key, defaultValue);
         final SharedPreferences.Editor editor = prefs.edit();
         editor.putString(key, value);
@@ -206,13 +206,13 @@ public class InputTestsBase extends ServiceTestCase<LatinIMEForTests> {
             Looper.prepare();
         }
         setupService();
-        mLatinIME = getService();
+        mOneKeyboard = getService();
         setDebugMode(true);
         mPreviousBigramPredictionSettings = setBooleanPreference(Settings.PREF_BIGRAM_PREDICTIONS,
                 true, true /* defaultValue */);
         mPreviousAutoCorrectSetting = setBooleanPreference(Settings.PREF_AUTO_CORRECTION,
                 DEFAULT_AUTO_CORRECTION, DEFAULT_AUTO_CORRECTION);
-        mLatinIME.onCreate();
+        mOneKeyboard.onCreate();
         EditorInfo ei = new EditorInfo();
         final InputConnection ic = mEditText.onCreateInputConnection(ei);
         final LayoutInflater inflater =
@@ -220,11 +220,11 @@ public class InputTestsBase extends ServiceTestCase<LatinIMEForTests> {
         final ViewGroup vg = new FrameLayout(getContext());
         mInputView = inflater.inflate(R.layout.input_view, vg);
         ei = enrichEditorInfo(ei);
-        mLatinIME.onCreateInputMethodInterface().startInput(ic, ei);
-        mLatinIME.setInputView(mInputView);
-        mLatinIME.onBindInput();
-        mLatinIME.onCreateInputView();
-        mLatinIME.onStartInputView(ei, false);
+        mOneKeyboard.onCreateInputMethodInterface().startInput(ic, ei);
+        mOneKeyboard.setInputView(mInputView);
+        mOneKeyboard.onBindInput();
+        mOneKeyboard.onCreateInputView();
+        mOneKeyboard.onStartInputView(ei, false);
         mInputConnection = ic;
         changeLanguage("en_US");
         // Run messages to avoid the messages enqueued by startInputView() and its friends
@@ -236,18 +236,18 @@ public class InputTestsBase extends ServiceTestCase<LatinIMEForTests> {
 
     @Override
     protected void tearDown() throws Exception {
-        mLatinIME.onFinishInputView(true);
-        mLatinIME.onFinishInput();
+        mOneKeyboard.onFinishInputView(true);
+        mOneKeyboard.onFinishInput();
         runMessages();
-        mLatinIME.mHandler.removeAllMessages();
+        mOneKeyboard.mHandler.removeAllMessages();
         setBooleanPreference(Settings.PREF_BIGRAM_PREDICTIONS, mPreviousBigramPredictionSettings,
                 true /* defaultValue */);
         setBooleanPreference(Settings.PREF_AUTO_CORRECTION, mPreviousAutoCorrectSetting,
                 DEFAULT_AUTO_CORRECTION);
         setDebugMode(false);
-        mLatinIME.recycle();
+        mOneKeyboard.recycle();
         super.tearDown();
-        mLatinIME = null;
+        mOneKeyboard = null;
     }
 
     // We need to run the messages added to the handler from LatinIME. The only way to do
@@ -263,7 +263,7 @@ public class InputTestsBase extends ServiceTestCase<LatinIMEForTests> {
         // Empty class
     }
     protected void runMessages() {
-        mLatinIME.mHandler.post(new Runnable() {
+        mOneKeyboard.mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     throw new InterruptRunMessagesException();
@@ -293,9 +293,9 @@ public class InputTestsBase extends ServiceTestCase<LatinIMEForTests> {
         } else {
             final int x = key.getX() + key.getWidth() / 2;
             final int y = key.getY() + key.getHeight() / 2;
-            event = LatinIME.createSoftwareKeypressEvent(codePoint, x, y, isKeyRepeat);
+            event = OneKeyboard.createSoftwareKeypressEvent(codePoint, x, y, isKeyRepeat);
         }
-        mLatinIME.onEvent(event);
+        mOneKeyboard.onEvent(event);
         // Also see the comment at the top of this function about onReleaseKey
         //mLatinIME.onReleaseKey(codePoint, false /* withSliding */);
     }
@@ -327,7 +327,7 @@ public class InputTestsBase extends ServiceTestCase<LatinIMEForTests> {
             throw new RuntimeException("Can't gesture strings less than 2 chars long");
         }
 
-        mLatinIME.onStartBatchInput();
+        mOneKeyboard.onStartBatchInput();
         final int startCodePoint = stringToGesture.codePointAt(0);
         Point oldPoint = getXY(startCodePoint);
         int timestamp = 0; // In milliseconds since the start of the gesture
@@ -347,16 +347,16 @@ public class InputTestsBase extends ServiceTestCase<LatinIMEForTests> {
             }
             oldPoint.x = newPoint.x;
             oldPoint.y = newPoint.y;
-            mLatinIME.onUpdateBatchInput(pointers);
+            mOneKeyboard.onUpdateBatchInput(pointers);
         }
-        mLatinIME.onEndBatchInput(pointers);
+        mOneKeyboard.onEndBatchInput(pointers);
         sleep(DELAY_TO_WAIT_FOR_GESTURE_MILLIS);
         runMessages();
     }
 
     protected void waitForDictionariesToBeLoaded() {
         try {
-            mLatinIME.waitForLoadingDictionaries(
+            mOneKeyboard.waitForLoadingDictionaries(
                     TIMEOUT_TO_WAIT_FOR_LOADING_MAIN_DICTIONARY_IN_SECONDS, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             Log.e(TAG, "Interrupted during waiting for loading main dictionary.", e);
@@ -395,23 +395,23 @@ public class InputTestsBase extends ServiceTestCase<LatinIMEForTests> {
                 false /* overridesImplicitlyEnabledSubtype */,
                 0 /* id */);
         RichInputMethodManager.forceSubtype(subtype);
-        mLatinIME.onCurrentInputMethodSubtypeChanged(subtype);
+        mOneKeyboard.onCurrentInputMethodSubtypeChanged(subtype);
         runMessages();
-        mKeyboard = mLatinIME.mKeyboardSwitcher.getKeyboard();
-        mLatinIME.clearPersonalizedDictionariesForTest();
+        mKeyboard = mOneKeyboard.mKeyboardSwitcher.getKeyboard();
+        mOneKeyboard.clearPersonalizedDictionariesForTest();
     }
 
     protected void changeKeyboardLocaleAndDictLocale(final String keyboardLocale,
             final String dictLocale) {
         changeLanguage(keyboardLocale);
         if (!keyboardLocale.equals(dictLocale)) {
-            mLatinIME.replaceDictionariesForTest(LocaleUtils.constructLocaleFromString(dictLocale));
+            mOneKeyboard.replaceDictionariesForTest(LocaleUtils.constructLocaleFromString(dictLocale));
         }
         waitForDictionariesToBeLoaded();
     }
 
     protected void pickSuggestionManually(final String suggestion) {
-        mLatinIME.pickSuggestionManually(new SuggestedWordInfo(suggestion,
+        mOneKeyboard.pickSuggestionManually(new SuggestedWordInfo(suggestion,
                 "" /* prevWordsContext */, 1 /* score */,
                 SuggestedWordInfo.KIND_CORRECTION, DICTIONARY_TEST,
                 SuggestedWordInfo.NOT_AN_INDEX /* indexOfTouchPointOfSecondWord */,
@@ -433,7 +433,7 @@ public class InputTestsBase extends ServiceTestCase<LatinIMEForTests> {
      */
     protected int sendUpdateForCursorMoveTo(final int position) {
         mInputConnection.setSelection(position, position);
-        mLatinIME.onUpdateSelection(mLastCursorPos, mLastCursorPos, position, position, -1, -1);
+        mOneKeyboard.onUpdateSelection(mLastCursorPos, mLastCursorPos, position, position, -1, -1);
         mLastCursorPos = position;
         return position;
     }

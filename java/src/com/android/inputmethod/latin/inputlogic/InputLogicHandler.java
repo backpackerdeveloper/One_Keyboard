@@ -21,7 +21,7 @@ import android.os.HandlerThread;
 import android.os.Message;
 
 import com.android.inputmethod.compat.LooperCompatUtils;
-import com.android.inputmethod.latin.LatinIME;
+import com.android.inputmethod.latin.OneKeyboard;
 import com.android.inputmethod.latin.SuggestedWords;
 import com.android.inputmethod.latin.Suggest.OnGetSuggestedWordsCallback;
 import com.android.inputmethod.latin.common.InputPointers;
@@ -32,7 +32,7 @@ import com.android.inputmethod.latin.common.InputPointers;
 class InputLogicHandler implements Handler.Callback {
     final Handler mNonUIThreadHandler;
     // TODO: remove this reference.
-    final LatinIME mLatinIME;
+    final OneKeyboard mOneKeyboard;
     final InputLogic mInputLogic;
     private final Object mLock = new Object();
     private boolean mInBatchInput; // synchronized using {@link #mLock}.
@@ -63,16 +63,16 @@ class InputLogicHandler implements Handler.Callback {
 
     InputLogicHandler() {
         mNonUIThreadHandler = null;
-        mLatinIME = null;
+        mOneKeyboard = null;
         mInputLogic = null;
     }
 
-    public InputLogicHandler(final LatinIME latinIME, final InputLogic inputLogic) {
+    public InputLogicHandler(final OneKeyboard oneKeyboard, final InputLogic inputLogic) {
         final HandlerThread handlerThread = new HandlerThread(
                 InputLogicHandler.class.getSimpleName());
         handlerThread.start();
         mNonUIThreadHandler = new Handler(handlerThread.getLooper(), this);
-        mLatinIME = latinIME;
+        mOneKeyboard = oneKeyboard;
         mInputLogic = inputLogic;
     }
 
@@ -95,7 +95,7 @@ class InputLogicHandler implements Handler.Callback {
     public boolean handleMessage(final Message msg) {
         switch (msg.what) {
             case MSG_GET_SUGGESTED_WORDS:
-                mLatinIME.getSuggestedWords(msg.arg1 /* inputStyle */,
+                mOneKeyboard.getSuggestedWords(msg.arg1 /* inputStyle */,
                         msg.arg2 /* sequenceNumber */, (OnGetSuggestedWordsCallback) msg.obj);
                 break;
         }
@@ -158,13 +158,13 @@ class InputLogicHandler implements Handler.Callback {
         } else {
             suggestedWordsToShowSuggestions = suggestedWordsForBatchInput;
         }
-        mLatinIME.mHandler.showGesturePreviewAndSuggestionStrip(suggestedWordsToShowSuggestions,
+        mOneKeyboard.mHandler.showGesturePreviewAndSuggestionStrip(suggestedWordsToShowSuggestions,
                 isTailBatchInput /* dismissGestureFloatingPreviewText */);
         if (isTailBatchInput) {
             mInBatchInput = false;
             // The following call schedules onEndBatchInputInternal
             // to be called on the UI thread.
-            mLatinIME.mHandler.showTailBatchInputResult(suggestedWordsToShowSuggestions);
+            mOneKeyboard.mHandler.showTailBatchInputResult(suggestedWordsToShowSuggestions);
         }
     }
 

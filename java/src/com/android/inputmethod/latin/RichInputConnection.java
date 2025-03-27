@@ -182,7 +182,7 @@ public final class RichInputConnection implements PrivateCommandPerformer {
                     + "\nActual selection start = " + et.selectionStart
                     + "\nExpected text = " + internal.length() + " " + internal
                     + "\nActual text = " + reference.length() + " " + reference;
-            ((LatinIME)mParent).debugDumpStateAndCrashWithException(context);
+            ((OneKeyboard)mParent).debugDumpStateAndCrashWithException(context);
         } else {
             Log.e(TAG, DebugLogUtils.getStackTrace(2));
             Log.e(TAG, "Exp <> Actual : " + mExpectedSelStart + " <> " + et.selectionStart);
@@ -675,7 +675,7 @@ public final class RichInputConnection implements PrivateCommandPerformer {
                 if (!(reference.equals(internal.toString()))) {
                     final String context =
                             "Expected text = " + internal + "\nActual text = " + reference;
-                    ((LatinIME)mParent).debugDumpStateAndCrashWithException(context);
+                    ((OneKeyboard)mParent).debugDumpStateAndCrashWithException(context);
                 }
             }
         }

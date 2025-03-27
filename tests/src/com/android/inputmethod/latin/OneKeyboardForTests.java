@@ -16,7 +16,7 @@
 
 package com.android.inputmethod.latin;
 
-public class LatinIMEForTests extends LatinIME {
+public class OneKeyboardForTests extends OneKeyboard {
     @Override
     public boolean isInputViewShown() {
         return true;

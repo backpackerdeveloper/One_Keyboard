@@ -117,11 +117,11 @@ import javax.annotation.Nullable;
 /**
  * Input method implementation for Qwerty'ish keyboard.
  */
-public class LatinIME extends InputMethodService implements KeyboardActionListener,
+public class OneKeyboard extends InputMethodService implements KeyboardActionListener,
         SuggestionStripView.Listener, SuggestionStripViewAccessor,
         DictionaryFacilitator.DictionaryInitializationListener,
         PermissionsManager.PermissionsResultCallback {
-    static final String TAG = LatinIME.class.getSimpleName();
+    static final String TAG = OneKeyboard.class.getSimpleName();
     private static final boolean TRACE = false;
 
     private static final int PERIOD_FOR_AUDIO_AND_HAPTIC_FEEDBACK_IN_KEY_REPEAT = 2;
@@ -210,7 +210,7 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
 
     public final UIHandler mHandler = new UIHandler(this);
 
-    public static final class UIHandler extends LeakGuardHandlerWrapper<LatinIME> {
+    public static final class UIHandler extends LeakGuardHandlerWrapper<OneKeyboard> {
         private static final int MSG_UPDATE_SHIFT_STATE = 0;
         private static final int MSG_PENDING_IMS_CALLBACK = 1;
         private static final int MSG_UPDATE_SUGGESTION_STRIP = 2;
@@ -235,16 +235,16 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
         private int mDelayInMillisecondsToUpdateSuggestions;
         private int mDelayInMillisecondsToUpdateShiftState;
 
-        public UIHandler(@Nonnull final LatinIME ownerInstance) {
+        public UIHandler(@Nonnull final OneKeyboard ownerInstance) {
             super(ownerInstance);
         }
 
         public void onCreate() {
-            final LatinIME latinIme = getOwnerInstance();
-            if (latinIme == null) {
+            final OneKeyboard oneKeyboard = getOwnerInstance();
+            if (oneKeyboard == null) {
                 return;
             }
-            final Resources res = latinIme.getResources();
+            final Resources res = oneKeyboard.getResources();
             mDelayInMillisecondsToUpdateSuggestions = res.getInteger(
                     R.integer.config_delay_in_milliseconds_to_update_suggestions);
             mDelayInMillisecondsToUpdateShiftState = res.getInteger(
@@ -253,73 +253,73 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
 
         @Override
         public void handleMessage(final Message msg) {
-            final LatinIME latinIme = getOwnerInstance();
-            if (latinIme == null) {
+            final OneKeyboard oneKeyboard = getOwnerInstance();
+            if (oneKeyboard == null) {
                 return;
             }
-            final KeyboardSwitcher switcher = latinIme.mKeyboardSwitcher;
+            final KeyboardSwitcher switcher = oneKeyboard.mKeyboardSwitcher;
             switch (msg.what) {
             case MSG_UPDATE_SUGGESTION_STRIP:
                 cancelUpdateSuggestionStrip();
-                latinIme.mInputLogic.performUpdateSuggestionStripSync(
-                        latinIme.mSettings.getCurrent(), msg.arg1 /* inputStyle */);
+                oneKeyboard.mInputLogic.performUpdateSuggestionStripSync(
+                        oneKeyboard.mSettings.getCurrent(), msg.arg1 /* inputStyle */);
                 break;
             case MSG_UPDATE_SHIFT_STATE:
-                switcher.requestUpdatingShiftState(latinIme.getCurrentAutoCapsState(),
-                        latinIme.getCurrentRecapitalizeState());
+                switcher.requestUpdatingShiftState(oneKeyboard.getCurrentAutoCapsState(),
+                        oneKeyboard.getCurrentRecapitalizeState());
                 break;
             case MSG_SHOW_GESTURE_PREVIEW_AND_SUGGESTION_STRIP:
                 if (msg.arg1 == ARG1_NOT_GESTURE_INPUT) {
                     final SuggestedWords suggestedWords = (SuggestedWords) msg.obj;
-                    latinIme.showSuggestionStrip(suggestedWords);
+                    oneKeyboard.showSuggestionStrip(suggestedWords);
                 } else {
-                    latinIme.showGesturePreviewAndSuggestionStrip((SuggestedWords) msg.obj,
+                    oneKeyboard.showGesturePreviewAndSuggestionStrip((SuggestedWords) msg.obj,
                             msg.arg1 == ARG1_DISMISS_GESTURE_FLOATING_PREVIEW_TEXT);
                 }
                 break;
             case MSG_RESUME_SUGGESTIONS:
-                latinIme.mInputLogic.restartSuggestionsOnWordTouchedByCursor(
-                        latinIme.mSettings.getCurrent(), false /* forStartInput */,
-                        latinIme.mKeyboardSwitcher.getCurrentKeyboardScriptId());
+                oneKeyboard.mInputLogic.restartSuggestionsOnWordTouchedByCursor(
+                        oneKeyboard.mSettings.getCurrent(), false /* forStartInput */,
+                        oneKeyboard.mKeyboardSwitcher.getCurrentKeyboardScriptId());
                 break;
             case MSG_RESUME_SUGGESTIONS_FOR_START_INPUT:
-                latinIme.mInputLogic.restartSuggestionsOnWordTouchedByCursor(
-                        latinIme.mSettings.getCurrent(), true /* forStartInput */,
-                        latinIme.mKeyboardSwitcher.getCurrentKeyboardScriptId());
+                oneKeyboard.mInputLogic.restartSuggestionsOnWordTouchedByCursor(
+                        oneKeyboard.mSettings.getCurrent(), true /* forStartInput */,
+                        oneKeyboard.mKeyboardSwitcher.getCurrentKeyboardScriptId());
                 break;
             case MSG_REOPEN_DICTIONARIES:
                 // We need to re-evaluate the currently composing word in case the script has
                 // changed.
                 postWaitForDictionaryLoad();
-                latinIme.resetDictionaryFacilitatorIfNecessary();
+                oneKeyboard.resetDictionaryFacilitatorIfNecessary();
                 break;
             case MSG_UPDATE_TAIL_BATCH_INPUT_COMPLETED:
                 final SuggestedWords suggestedWords = (SuggestedWords) msg.obj;
-                latinIme.mInputLogic.onUpdateTailBatchInputCompleted(
-                        latinIme.mSettings.getCurrent(),
-                        suggestedWords, latinIme.mKeyboardSwitcher);
-                latinIme.onTailBatchInputResultShown(suggestedWords);
+                oneKeyboard.mInputLogic.onUpdateTailBatchInputCompleted(
+                        oneKeyboard.mSettings.getCurrent(),
+                        suggestedWords, oneKeyboard.mKeyboardSwitcher);
+                oneKeyboard.onTailBatchInputResultShown(suggestedWords);
                 break;
             case MSG_RESET_CACHES:
-                final SettingsValues settingsValues = latinIme.mSettings.getCurrent();
-                if (latinIme.mInputLogic.retryResetCachesAndReturnSuccess(
+                final SettingsValues settingsValues = oneKeyboard.mSettings.getCurrent();
+                if (oneKeyboard.mInputLogic.retryResetCachesAndReturnSuccess(
                         msg.arg1 == ARG1_TRUE /* tryResumeSuggestions */,
                         msg.arg2 /* remainingTries */, this /* handler */)) {
                     // If we were able to reset the caches, then we can reload the keyboard.
                     // Otherwise, we'll do it when we can.
-                    latinIme.mKeyboardSwitcher.loadKeyboard(latinIme.getCurrentInputEditorInfo(),
-                            settingsValues, latinIme.getCurrentAutoCapsState(),
-                            latinIme.getCurrentRecapitalizeState());
+                    oneKeyboard.mKeyboardSwitcher.loadKeyboard(oneKeyboard.getCurrentInputEditorInfo(),
+                            settingsValues, oneKeyboard.getCurrentAutoCapsState(),
+                            oneKeyboard.getCurrentRecapitalizeState());
                 }
                 break;
             case MSG_WAIT_FOR_DICTIONARY_LOAD:
                 Log.i(TAG, "Timeout waiting for dictionary load");
                 break;
             case MSG_DEALLOCATE_MEMORY:
-                latinIme.deallocateMemory();
+                oneKeyboard.deallocateMemory();
                 break;
             case MSG_SWITCH_LANGUAGE_AUTOMATICALLY:
-                latinIme.switchLanguage((InputMethodSubtype)msg.obj);
+                oneKeyboard.switchLanguage((InputMethodSubtype)msg.obj);
                 break;
             }
         }
@@ -335,11 +335,11 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
 
         private void postResumeSuggestionsInternal(final boolean shouldDelay,
                 final boolean forStartInput) {
-            final LatinIME latinIme = getOwnerInstance();
-            if (latinIme == null) {
+            final OneKeyboard oneKeyboard = getOwnerInstance();
+            if (oneKeyboard == null) {
                 return;
             }
-            if (!latinIme.mSettings.getCurrent().isSuggestionsEnabledPerUserSettings()) {
+            if (!oneKeyboard.mSettings.getCurrent().isSuggestionsEnabledPerUserSettings()) {
                 return;
             }
             removeMessages(MSG_RESUME_SUGGESTIONS);
@@ -455,12 +455,12 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
             removeMessages(MSG_PENDING_IMS_CALLBACK);
             resetPendingImsCallback();
             mIsOrientationChanging = true;
-            final LatinIME latinIme = getOwnerInstance();
-            if (latinIme == null) {
+            final OneKeyboard oneKeyboard = getOwnerInstance();
+            if (oneKeyboard == null) {
                 return;
             }
-            if (latinIme.isInputViewShown()) {
-                latinIme.mKeyboardSwitcher.saveKeyboardState();
+            if (oneKeyboard.isInputViewShown()) {
+                oneKeyboard.mKeyboardSwitcher.saveKeyboardState();
             }
         }
 
@@ -470,16 +470,16 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
             mHasPendingStartInput = false;
         }
 
-        private void executePendingImsCallback(final LatinIME latinIme, final EditorInfo editorInfo,
-                boolean restarting) {
+        private void executePendingImsCallback(final OneKeyboard oneKeyboard, final EditorInfo editorInfo,
+                                               boolean restarting) {
             if (mHasPendingFinishInputView) {
-                latinIme.onFinishInputViewInternal(mHasPendingFinishInput);
+                oneKeyboard.onFinishInputViewInternal(mHasPendingFinishInput);
             }
             if (mHasPendingFinishInput) {
-                latinIme.onFinishInputInternal();
+                oneKeyboard.onFinishInputInternal();
             }
             if (mHasPendingStartInput) {
-                latinIme.onStartInputInternal(editorInfo, restarting);
+                oneKeyboard.onStartInputInternal(editorInfo, restarting);
             }
             resetPendingImsCallback();
         }
@@ -494,10 +494,10 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
                     mIsOrientationChanging = false;
                     mPendingSuccessiveImsCallback = true;
                 }
-                final LatinIME latinIme = getOwnerInstance();
-                if (latinIme != null) {
-                    executePendingImsCallback(latinIme, editorInfo, restarting);
-                    latinIme.onStartInputInternal(editorInfo, restarting);
+                final OneKeyboard oneKeyboard = getOwnerInstance();
+                if (oneKeyboard != null) {
+                    executePendingImsCallback(oneKeyboard, editorInfo, restarting);
+                    oneKeyboard.onStartInputInternal(editorInfo, restarting);
                 }
             }
         }
@@ -515,10 +515,10 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
                     sendMessageDelayed(obtainMessage(MSG_PENDING_IMS_CALLBACK),
                             PENDING_IMS_CALLBACK_DURATION_MILLIS);
                 }
-                final LatinIME latinIme = getOwnerInstance();
-                if (latinIme != null) {
-                    executePendingImsCallback(latinIme, editorInfo, restarting);
-                    latinIme.onStartInputViewInternal(editorInfo, restarting);
+                final OneKeyboard oneKeyboard = getOwnerInstance();
+                if (oneKeyboard != null) {
+                    executePendingImsCallback(oneKeyboard, editorInfo, restarting);
+                    oneKeyboard.onStartInputViewInternal(editorInfo, restarting);
                     mAppliedEditorInfo = editorInfo;
                 }
                 cancelDeallocateMemory();
@@ -530,9 +530,9 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
                 // Typically this is the first onFinishInputView after orientation changed.
                 mHasPendingFinishInputView = true;
             } else {
-                final LatinIME latinIme = getOwnerInstance();
-                if (latinIme != null) {
-                    latinIme.onFinishInputViewInternal(finishingInput);
+                final OneKeyboard oneKeyboard = getOwnerInstance();
+                if (oneKeyboard != null) {
+                    oneKeyboard.onFinishInputViewInternal(finishingInput);
                     mAppliedEditorInfo = null;
                 }
                 if (!hasPendingDeallocateMemory()) {
@@ -546,10 +546,10 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
                 // Typically this is the first onFinishInput after orientation changed.
                 mHasPendingFinishInput = true;
             } else {
-                final LatinIME latinIme = getOwnerInstance();
-                if (latinIme != null) {
-                    executePendingImsCallback(latinIme, null, false);
-                    latinIme.onFinishInputInternal();
+                final OneKeyboard oneKeyboard = getOwnerInstance();
+                if (oneKeyboard != null) {
+                    executePendingImsCallback(oneKeyboard, null, false);
+                    oneKeyboard.onFinishInputInternal();
                 }
             }
         }
@@ -588,7 +588,7 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
         JniUtils.loadNativeLibrary();
     }
 
-    public LatinIME() {
+    public OneKeyboard() {
         super();
         mSettings = Settings.getInstance();
         mKeyboardSwitcher = KeyboardSwitcher.getInstance();
@@ -1887,7 +1887,7 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
             mainKeyboardView.closing();
         }
         final Intent intent = new Intent();
-        intent.setClass(LatinIME.this, SettingsActivity.class);
+        intent.setClass(OneKeyboard.this, SettingsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
                 | Intent.FLAG_ACTIVITY_CLEAR_TOP);

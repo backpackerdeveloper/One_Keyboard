@@ -30,17 +30,17 @@ public class PunctuationTests extends InputTestsBase {
         final String PUNCTUATION_FROM_STRIP = "!";
         final String EXPECTED_RESULT = "this!! ";
         final boolean defaultNextWordPredictionOption =
-                mLatinIME.getResources().getBoolean(R.bool.config_default_next_word_prediction);
+                mOneKeyboard.getResources().getBoolean(R.bool.config_default_next_word_prediction);
         final boolean previousNextWordPredictionOption =
                 setBooleanPreference(NEXT_WORD_PREDICTION_OPTION, false,
                         defaultNextWordPredictionOption);
         try {
-            mLatinIME.loadSettings();
+            mOneKeyboard.loadSettings();
             type(WORD_TO_TYPE);
             sleep(DELAY_TO_WAIT_FOR_UNDERLINE_MILLIS);
             runMessages();
             assertTrue("type word then type space should display punctuation strip",
-                    mLatinIME.getSuggestedWordsForTest().isPunctuationSuggestions());
+                    mOneKeyboard.getSuggestedWordsForTest().isPunctuationSuggestions());
             pickSuggestionManually(PUNCTUATION_FROM_STRIP);
             pickSuggestionManually(PUNCTUATION_FROM_STRIP);
             assertEquals("type word then type space then punctuation from strip twice",
@@ -123,7 +123,7 @@ public class PunctuationTests extends InputTestsBase {
         final String EXPECTED_RESULT = "this :-)";
         type(WORD_TO_TYPE);
         pickSuggestionManually(WORD_TO_TYPE);
-        mLatinIME.onTextInput(SPECIAL_KEY);
+        mOneKeyboard.onTextInput(SPECIAL_KEY);
         assertEquals("manually pick word then press the smiley key",
                 EXPECTED_RESULT, mEditText.getText().toString());
     }
@@ -134,7 +134,7 @@ public class PunctuationTests extends InputTestsBase {
         final String EXPECTED_RESULT = "this.com";
         type(WORD_TO_TYPE);
         pickSuggestionManually(WORD_TO_TYPE);
-        mLatinIME.onTextInput(SPECIAL_KEY);
+        mOneKeyboard.onTextInput(SPECIAL_KEY);
         assertEquals("manually pick word then press the .com key",
                 EXPECTED_RESULT, mEditText.getText().toString());
     }
@@ -144,7 +144,7 @@ public class PunctuationTests extends InputTestsBase {
         final String SPECIAL_KEY = ".com";
         final String EXPECTED_RESULT = "this.com";
         type(WORD_TO_TYPE);
-        mLatinIME.onTextInput(SPECIAL_KEY);
+        mOneKeyboard.onTextInput(SPECIAL_KEY);
         assertEquals("type word type dot then press the .com key",
                 EXPECTED_RESULT, mEditText.getText().toString());
     }
@@ -155,7 +155,7 @@ public class PunctuationTests extends InputTestsBase {
         type(WORD_TO_TYPE);
         assertEquals("auto-correction with single quote inside. ID = "
                 + Secure.getString(getContext().getContentResolver(), Secure.ANDROID_ID)
-                + " ; Suggestions = " + mLatinIME.getSuggestedWordsForTest(),
+                + " ; Suggestions = " + mOneKeyboard.getSuggestedWordsForTest(),
                 EXPECTED_RESULT, mEditText.getText().toString());
     }
 
@@ -165,7 +165,7 @@ public class PunctuationTests extends InputTestsBase {
         type(WORD_TO_TYPE);
         assertEquals("auto-correction with single quotes around. ID = "
                 + Secure.getString(getContext().getContentResolver(), Secure.ANDROID_ID)
-                + " ; Suggestions = " + mLatinIME.getSuggestedWordsForTest(),
+                + " ; Suggestions = " + mOneKeyboard.getSuggestedWordsForTest(),
                 EXPECTED_RESULT, mEditText.getText().toString());
     }
 
